@@ -1,13 +1,17 @@
+import 'dart:io';
 
-import 'dart:async';
+import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
+class HdrPlayer extends StatelessWidget {
+  const HdrPlayer({Key? key}) : super(key: key);
 
-class HdrPlayer {
-  static const MethodChannel _channel = MethodChannel('hdr_player');
-
-  static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return const UiKitView(
+        viewType: 'hdr_player',
+      );
+    }
+    throw UnimplementedError();
   }
 }
