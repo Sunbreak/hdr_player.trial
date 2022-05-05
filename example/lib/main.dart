@@ -21,12 +21,11 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.lightBlue,
-            child: const HdrPlayer(),
+        body: const Center(
+          child: SizedBox(
+            width: double.maxFinite,
+            height: 300,
+            child: HdrPlayer(),
           ),
         ),
       ),

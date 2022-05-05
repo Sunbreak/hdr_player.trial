@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import AVFoundation
 
 public class SwiftHdrPlayerPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -14,15 +15,37 @@ class HdrPlayerFactory: NSObject, FlutterPlatformViewFactory {
 }
 
 class HdrPlayer: NSObject, FlutterPlatformView {
-    private var _view: UILabel!
+    private var _view: HdrView!
 
     init(_ frame: CGRect, _ viewId: Int64, _ args: Any?) {
-        _view = UILabel(frame: frame)
-        _view.text = "hdr_player"
+        _view = HdrView(frame: frame)
         super.init()
     }
 
     func view() -> UIView {
         return _view
+    }
+}
+
+class HdrView: UIView {
+    private var player: AVPlayer!
+    private var playerLayer: AVPlayerLayer!
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        player = AVPlayer(url: URL(string: "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")!)
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        self.layer.addSublayer(playerLayer)
+
+        player.play()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func layoutSubviews() {
+        playerLayer.frame = self.bounds
     }
 }
