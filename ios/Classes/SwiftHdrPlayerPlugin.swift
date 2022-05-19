@@ -38,7 +38,13 @@ class HdrView: UIView {
         playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.layer.addSublayer(playerLayer)
 
+        player.actionAtItemEnd = .none
         player.play()
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { notification in
+            self.player.seek(to: .zero)
+            self.player.play()
+        }
     }
 
     required init?(coder: NSCoder) {
